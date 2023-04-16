@@ -1,7 +1,19 @@
-//Calculation functions and variables
+//eventListeners and other initialization
+document.querySelectorAll(".number").forEach((number) => {
+    number.addEventListener('click', Btn_Number);
+});
 
+document.querySelectorAll(".operation").forEach((operation) => {
+    operation.addEventListener('click', Btn_Operation);
+});
+
+document.querySelector("#Clear").addEventListener('click', Btn_Clear);
+document.querySelector('#Equals').addEventListener('click', Btn_Equal);
+
+//Calculation functions and variables
+const calcScreen = document.querySelector("#calc-screen");
 let currValue = null;
-let screenValue = 0;
+let screenValue = "";
 let currOperation = null;
 
 function Add(a, b){
@@ -23,35 +35,57 @@ function Divide(a, b){
         return a / b;
 }
 
-
-//Button behaviors:
-//User presses a button number => updates inputNumber
-//
-//User presses Clear button =>
-//Sets currValue = null, currOperation = null, screenValue = 0
-
 //User presses an operation button =>
 //updates currOperation 
 //IF currValue != null, then actually carry out operation
 //OTHERWISE, currValue is set to inputNumber
-function Btn_Operation(operation){
+function Btn_Operation(){
+    let operation = Add;
+    if (this.id == "Sub")
+        operation = Sub;
+    else if (this.id == "Multiply")
+        operation = Multiply;
+    else if (this.id == "Divide")
+        operation = Divide;
+
     currOperation = operation;
+
     if (currValue !== null){
-        currValue = operation(currValue, screenValue);
+        currValue = operation(currValue, Number(screenValue));
     }
     else
-        currValue = screenValue;
+        currValue = Number(screenValue);
 
-    //HTML: Set screen text to new value
+    Update_Screen();
 }
 
 //User presses equal button =>
 //Carries out operation using currValue, inputValue, currOperation
 function Btn_Equal(){
-    
+    console.log("Equal pressed");
+    currValue = currOperation(currValue, Number(screenValue));
+    screenValue = currValue.toString();
+    Update_Screen();
 }
 
-//Called when user presses '='
-function Operate(operation, a, b){
-    currValue = operation(a, b);
+//User presses Clear button =>
+//Sets currValue = null, currOperation = null, screenValue = 0
+function Btn_Clear(){
+    currValue = null;
+    currOperation = null;
+    screenValue = "";
+    Update_Screen();   
+}
+
+//Button behaviors:
+//User presses a button number => updates inputNumber
+function Btn_Number(){
+    number = Number(this.id);
+    screenValue = screenValue + number;
+    Update_Screen();
+}
+
+function Update_Screen(){
+    console.log("ScreenVal:" + screenValue);
+    calcScreen.textContent = screenValue;
 }

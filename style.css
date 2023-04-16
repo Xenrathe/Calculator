@@ -1,0 +1,26 @@
+
+body {
+    background-color: lightblue;
+}
+
+#calc-screen {
+    width: 200px;
+    height: 50px;
+    background-color: white;
+    color: black;
+    margin: auto;
+}
+
+#buttons{
+    width: 200px;
+    margin: auto;
+}
+
+#buttons, #buttons-number, #buttons-operations, #buttons-core {
+    display: flex;
+    justify-content: center;
+}
+
+#buttons-number, #buttons-operations, #buttons-core {
+    flex-wrap: wrap;
+}
