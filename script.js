@@ -9,6 +9,7 @@ document.querySelectorAll(".operation").forEach((operation) => {
 
 document.querySelector("#Clear").addEventListener('click', Btn_Clear);
 document.querySelector('#Equals').addEventListener('click', Btn_Equal);
+window.addEventListener('keydown', keyPress);
 
 //Calculation functions and variables
 const calcScreen = document.querySelector("#calc-screen");
@@ -42,15 +43,27 @@ function Divide(a, b){
 //updates currOperation 
 //depending on state, updates screenText
 //depending on state, carries out operation
-function Btn_Operation(){
+function Btn_Operation(input){
     
     let operation = Add;
-    if (this.id == "Sub")
+    let operationString = "+";
+    
+    if (typeof(input) == "object"){
+        input = this.id;
+    }
+    
+    if (input == "Sub"){
+        operationString = "-";
         operation = Sub;
-    else if (this.id == "Multiply")
+    }
+    else if (input == "Multiply"){
+        operationString = "x";
         operation = Multiply;
-    else if (this.id == "Divide")
+    }
+    else if (input == "Divide"){
+        operationString = "÷";
         operation = Divide;
+    }
 
     let inputValue = null;
     if (currInput != '')
@@ -61,7 +74,7 @@ function Btn_Operation(){
             return;
         
         currOperation = operation;
-        screenText += " " + this.textContent + " ";
+        screenText += " " + operationString + " ";
         Update_Screen();
         currValue = inputValue;
         currInput = '';
@@ -72,7 +85,7 @@ function Btn_Operation(){
         if (currOperation != null)
             screenText = screenText.slice(0, screenText.length - 3) + ' ' + this.textContent + ' ';
         else 
-            screenText += ' ' + this.textContent + ' ';
+            screenText += ' ' + operationString + ' ';
 
         Update_Screen();
         currOperation = operation;
@@ -92,7 +105,7 @@ function Btn_Equal(){
     currValue = currOperation(currValue, Number(currInput));
     currInput = "";
     currOperation = null;
-    screenText = currValue.toString();
+    screenText = +parseFloat(currValue).toFixed(3).toString();
     Update_Screen();
 }
 
@@ -109,13 +122,50 @@ function Btn_Clear(){
 
 //Button behaviors:
 //User presses a button number => updates inputNumber
-function Btn_Number(){
-    number = Number(this.id);
-    currInput = currInput + this.id;
-    screenText = screenText + this.id;
+function Btn_Number(numInput){
+    let stringNum = '';
+
+    if (typeof(numInput) == "object"){
+        stringNum = this.id;
+    }
+    else{
+        stringNum = numInput.toString();
+    }
+
+    currInput = currInput + stringNum;
+    screenText = screenText + stringNum;
     Update_Screen();
 }
 
 function Update_Screen(){
     calcScreen.textContent = screenText;
+}
+
+function keyPress(e){
+    //keycode for 0 = 48... 9=57
+    if (e.keyCode > 47 && e.keyCode < 58){
+        Btn_Number(e.keyCode - 48);       
+    }
+    //keycode for += = 187
+    else if (e.keyCode == 187){
+        if (e.shiftKey)
+            Btn_Operation("Add");
+        else
+            Btn_Equal();
+    }
+    //keycode for / = 191
+    else if (e.keyCode == 191){
+        Btn_Operation("Divide");
+    }
+    //keycode for x = 88
+    //keycode for * = 56
+    else if (e.keyCode == 88 || e.keyCode == 56){
+        Btn_Operation("Multiply");
+    }
+    //keycode for - = 189
+    else if (e.keyCode == 189){
+        Btn_Operation("Sub");
+    }
+    //e.keyCode = 
+    //const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
 }

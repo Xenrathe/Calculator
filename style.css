@@ -1,19 +1,44 @@
 
 body {
     background-color: lightblue;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
 }
 
 #calc-screen {
-    width: 200px;
-    height: 50px;
+    min-width: 200px;
+    min-height: 45px;
     background-color: white;
     color: black;
     margin: auto;
+    font-size: 35px;
+    text-align: center;
+    padding: 5px 5px 5px 5px;
+    margin-bottom: 10px;
+    margin-top: 30px;
+    flex: 1;
 }
 
 #buttons{
     width: 200px;
     margin: auto;
+}
+
+.number {
+    width: 40px;
+    height: 40px;
+}
+
+#Clear{
+    width: 80px;
+    height: 40px;
+}
+
+.operation, #Equals {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
 }
 
 #buttons, #buttons-number, #buttons-operations, #buttons-core {
