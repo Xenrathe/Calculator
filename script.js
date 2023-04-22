@@ -65,6 +65,11 @@ function Btn_Operation(input){
         operation = Divide;
     }
 
+    this.classList.toggle("buttonActive");
+    setTimeout(() => {
+        this.classList.toggle("buttonActive");
+      }, 100);
+
     let inputValue = null;
     if (currInput != '')
         inputValue = Number(currInput);
@@ -94,7 +99,7 @@ function Btn_Operation(input){
 
     Btn_Equal();
     currOperation = operation;
-    screenText += " " + this.textContent + " ";
+    screenText += " " + operationString + " ";
     Update_Screen();
 }
 
@@ -106,6 +111,12 @@ function Btn_Equal(){
     currInput = "";
     currOperation = null;
     screenText = +parseFloat(currValue).toFixed(3).toString();
+
+    document.querySelector('#Equals').classList.toggle("buttonActive");
+    setTimeout(() => {
+        document.querySelector('#Equals').classList.toggle("buttonActive");
+      }, 100);
+
     Update_Screen();
 }
 
@@ -116,6 +127,11 @@ function Btn_Clear(){
     currOperation = null;
     currInput = "";
     screenText = "";
+
+    this.classList.toggle("buttonActive");
+    setTimeout(() => {
+        this.classList.toggle("buttonActive");
+      }, 100);
 
     Update_Screen();   
 }
@@ -132,8 +148,33 @@ function Btn_Number(numInput){
         stringNum = numInput.toString();
     }
 
+    this.classList.toggle("buttonActive");
+    setTimeout(() => {
+        this.classList.toggle("buttonActive");
+      }, 100);
+
     currInput = currInput + stringNum;
     screenText = screenText + stringNum;
+    Update_Screen();
+}
+
+function Backspace(){
+    if (screenText.length == 0)
+        return;
+        
+    //The presence of a space means there's currently an operator
+    if (screenText.charAt(screenText.length-1) == ' '){
+        screenText = screenText.slice(0, screenText.length - 3);
+        currOperation = null;
+    }
+    else{
+        if (currInput == '')
+            return;
+
+        currInput = currInput.slice(0, currInput.length - 1);
+        screenText = screenText.slice(0, screenText.length - 1);
+    }
+
     Update_Screen();
 }
 
@@ -144,27 +185,40 @@ function Update_Screen(){
 function keyPress(e){
     //keycode for 0 = 48... 9=57
     if (e.keyCode > 47 && e.keyCode < 58){
-        Btn_Number(e.keyCode - 48);       
+        if (!e.shiftKey)
+            document.getElementById((e.keyCode - 48).toString()).click();
+            //Btn_Number(e.keyCode - 48);
+        else if (e.keyCode == 56)
+            document.getElementById("Multiply").click();
+
     }
     //keycode for += = 187
     else if (e.keyCode == 187){
         if (e.shiftKey)
-            Btn_Operation("Add");
+            document.getElementById("Add").click();
         else
-            Btn_Equal();
+            document.getElementById("Equals").click();
     }
     //keycode for / = 191
     else if (e.keyCode == 191){
-        Btn_Operation("Divide");
+        document.getElementById("Divide").click();
     }
     //keycode for x = 88
     //keycode for * = 56
-    else if (e.keyCode == 88 || e.keyCode == 56){
-        Btn_Operation("Multiply");
+    else if (e.keyCode == 88){
+        document.getElementById("Multiply").click();
     }
     //keycode for - = 189
     else if (e.keyCode == 189){
-        Btn_Operation("Sub");
+        document.getElementById("Sub").click();
+    }
+    //keycode for backspace = 8
+    else if (e.keyCode == 8){
+        Backspace();
+    }
+    //keycode for ESC = 27
+    else if (e.keyCode == 27){
+        document.getElementById("Clear").click();
     }
     //e.keyCode = 
     //const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
