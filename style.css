@@ -1,19 +1,37 @@
+@font-face {
+    font-family: 'digital-7regular';
+    src: url('Fonts/digital-7-webfont.woff2') format('woff2'),
+         url('Fonts/digital-7-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 body {
     background-color: lightblue;
+    font-family: 'digital-7regular';
+}
+
+#calculator-proper{
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    background-color:bisque;
+    margin: 25px auto;
+    width: 250px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    border: 2px outset black;
 }
 
 #calc-screen {
-    min-width: 200px;
-    min-height: 45px;
+    min-width: 180px;
+    min-height: 35px;
     background-color: white;
     color: black;
     margin: auto;
     font-size: 35px;
     text-align: center;
+    border: 2px inset black;
     padding: 5px 5px 5px 5px;
     margin-bottom: 10px;
     margin-top: 30px;
@@ -25,18 +43,43 @@ body {
     margin: auto;
 }
 
+button{
+    background-color:#ffc62b;
+    display:block;
+    position:relative;  
+    
+    /*
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    */
+    text-shadow: 0px 1px 0px #000;
+    filter: dropshadow(color=#000, offx=0px, offy=1px);
+    
+    /*
+    -webkit-box-shadow:inset 0 1px 0 #FFE5C4, 0 4px 0 #915100;
+    -moz-box-shadow:inset 0 1px 0 #FFE5C4, 0 4px 0 #915100;
+    */
+    box-shadow:inset 0 1px 0 #FFE5C4, 0 4px 0 #915100;
+    
+    /*
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    */
+    border-radius: 5px;
+}
+
 button:active, .buttonActive{
-    background-color: whitesmoke;
-    transition: all 0.5s;
+    background-color:#b68e1f;
+    transition: all 0.1s;
+    top:5px;
+    /*
+    -webkit-box-shadow:inset 0 1px 0 #FFE5C4, inset 0 -3px 0 #915100;
+    -moz-box-shadow:inset 0 1px 0 #FFE5C4, inset 0 -3pxpx 0 #915100;
+    */
+    box-shadow:inset 0 1px 0 #FFE5C4, inset 0 -3px 0 #915100;
 }
 
-.number {
+.number, #Clear {
     width: 40px;
-    height: 40px;
-}
-
-#Clear{
-    width: 80px;
     height: 40px;
 }
 

@@ -107,6 +107,9 @@ function Btn_Operation(input){
 //ALSO CALLED if a user presses a 'second' operator in a chain
 //Carries out operation using currValue, inputValue, currOperation
 function Btn_Equal(){
+    if (currOperation == null)
+        return;
+    
     currValue = currOperation(currValue, Number(currInput));
     currInput = "";
     currOperation = null;
@@ -141,6 +144,7 @@ function Btn_Clear(){
 function Btn_Number(numInput){
     let stringNum = '';
 
+    //Note: Currently this if is pointless, as Btn_Number ONLY called by object
     if (typeof(numInput) == "object"){
         stringNum = this.id;
     }
@@ -152,6 +156,10 @@ function Btn_Number(numInput){
     setTimeout(() => {
         this.classList.toggle("buttonActive");
       }, 100);
+
+    //Do not allow multiple periods
+    if (stringNum == "." && currInput.includes("."))
+      return;
 
     currInput = currInput + stringNum;
     screenText = screenText + stringNum;
@@ -190,7 +198,6 @@ function keyPress(e){
             //Btn_Number(e.keyCode - 48);
         else if (e.keyCode == 56)
             document.getElementById("Multiply").click();
-
     }
     //keycode for += = 187
     else if (e.keyCode == 187){
@@ -220,6 +227,8 @@ function keyPress(e){
     else if (e.keyCode == 27){
         document.getElementById("Clear").click();
     }
-    //e.keyCode = 
-    //const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+    //keycode for . = 190
+    else if (e.keyCode == 190){
+        document.getElementById(".").click();
+    }
 }
